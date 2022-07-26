@@ -5,7 +5,10 @@ import (
 	"crypto/rsa"
 )
 
+const bitSize = 4096
+
+// GenerateRsaKeyPair generates rsa.PrivateKey and rsa.PublicKey pair.
 func GenerateRsaKeyPair() (*rsa.PrivateKey, *rsa.PublicKey) {
-	privateKey, _ := rsa.GenerateKey(rand.Reader, 4096)
+	privateKey, _ := rsa.GenerateKey(rand.Reader, bitSize)
 	return privateKey, &privateKey.PublicKey
 }

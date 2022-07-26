@@ -11,6 +11,7 @@ import (
 	"github.com/pkg/errors"
 )
 
+// GetSignature creates signature ([]byte) of some byte data.
 func GetSignature(privateKey *rsa.PrivateKey, message []byte) ([]byte, error) {
 	hashed := sha256.Sum256(message)
 	signature, err := rsa.SignPKCS1v15(rand.Reader, privateKey, crypto.SHA256, hashed[:])
@@ -20,6 +21,7 @@ func GetSignature(privateKey *rsa.PrivateKey, message []byte) ([]byte, error) {
 	return signature, nil
 }
 
+// GetSignatureB64 creates signature of some byte data and creates its Base64 representation.
 func GetSignatureB64(privateKey *rsa.PrivateKey, message []byte) (string, error) {
 	signature, err := GetSignature(privateKey, message)
 	if err != nil {
@@ -29,6 +31,7 @@ func GetSignatureB64(privateKey *rsa.PrivateKey, message []byte) (string, error)
 	return signatureBase64, nil
 }
 
+// GetSignatureHEX creates signature of some byte data and creates its HEX representation.
 func GetSignatureHEX(privateKey *rsa.PrivateKey, message []byte) (string, error) {
 	signature, err := GetSignature(privateKey, message)
 	if err != nil {
@@ -38,6 +41,7 @@ func GetSignatureHEX(privateKey *rsa.PrivateKey, message []byte) (string, error)
 	return signatureHEX, nil
 }
 
+// VerifySignatureHEX verifies signature in HEX format.
 func VerifySignatureHEX(publicKey *rsa.PublicKey, message []byte, signatureHEX string) error {
 	signature, err := hex.DecodeString(signatureHEX)
 	if err != nil {
@@ -46,6 +50,7 @@ func VerifySignatureHEX(publicKey *rsa.PublicKey, message []byte, signatureHEX s
 	return VerifySignature(publicKey, message, signature)
 }
 
+// VerifySignatureB64 verifies signature in Base64 format.
 func VerifySignatureB64(publicKey *rsa.PublicKey, message []byte, signatureB64 string) error {
 	signature, err := base64.StdEncoding.DecodeString(signatureB64)
 	if err != nil {
@@ -54,6 +59,7 @@ func VerifySignatureB64(publicKey *rsa.PublicKey, message []byte, signatureB64 s
 	return VerifySignature(publicKey, message, signature)
 }
 
+// VerifySignature verifies signature.
 func VerifySignature(publicKey *rsa.PublicKey, message []byte, signature []byte) error {
 	hashed := sha256.Sum256(message)
 	err := rsa.VerifyPKCS1v15(publicKey, crypto.SHA256, hashed[:], signature)

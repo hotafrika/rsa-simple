@@ -7,6 +7,8 @@ import (
 	"errors"
 )
 
+// ExportRsaPrivateKeyAsPem creates serialized representation of rsa.PrivateKey.
+// It could be saved to a text file for example.
 func ExportRsaPrivateKeyAsPem(privateKey *rsa.PrivateKey) []byte {
 	privateKeyBytes, _ := x509.MarshalPKCS8PrivateKey(privateKey)
 	privateKeyPEM := pem.EncodeToMemory(
@@ -18,6 +20,7 @@ func ExportRsaPrivateKeyAsPem(privateKey *rsa.PrivateKey) []byte {
 	return privateKeyPEM
 }
 
+// ParseRsaPrivateKeyFromPem creates rsa.PrivateKey from serialized format.
 func ParseRsaPrivateKeyFromPem(privateKeyPEM []byte) (*rsa.PrivateKey, error) {
 	block, _ := pem.Decode(privateKeyPEM)
 	if block == nil {
@@ -37,6 +40,8 @@ func ParseRsaPrivateKeyFromPem(privateKeyPEM []byte) (*rsa.PrivateKey, error) {
 	return nil, errors.New("private key type is not RSA")
 }
 
+// ExportRsaPublicKeyAsPem creates serialized representation of rsa.PublicKey.
+// It could be saved to a text file for example.
 func ExportRsaPublicKeyAsPem(publicKey *rsa.PublicKey) ([]byte, error) {
 	publicKeyBytes, err := x509.MarshalPKIXPublicKey(publicKey)
 	if err != nil {
@@ -52,6 +57,7 @@ func ExportRsaPublicKeyAsPem(publicKey *rsa.PublicKey) ([]byte, error) {
 	return publicKeyPEM, nil
 }
 
+// ParseRsaPublicKeyFromPem creates rsa.PublicKey from serialized format.
 func ParseRsaPublicKeyFromPem(publicKeyPEM []byte) (*rsa.PublicKey, error) {
 	block, _ := pem.Decode(publicKeyPEM)
 	if block == nil {
