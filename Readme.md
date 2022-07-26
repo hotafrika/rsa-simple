@@ -6,7 +6,7 @@ For simplicity under the hood it uses some hardcoded values:
 - **4096** bits for key pair generation;
 - **PKCS8** format for marshalling/unmarshalling of private keys;
 - **PKIX** format for marshalling/unmarshalling of public keys;
-- **SHA256** algorithm for message hast generation;
+- **SHA256** algorithm for message hash generation;
 - **PKCS1v15** for signature creation and verification.
 
 #### Examples:
